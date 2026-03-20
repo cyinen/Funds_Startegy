@@ -21,7 +21,7 @@ CONFIG = {
     'sell_threshold': 0.07,
     'switch_threshold': 0.02,
     'ma_period': 120,
-    'start_date': '2026-03-01',
+    'start_date': '2026-01-01',
     'data_dir': './fund_data',
     'use_money_fund': True,
     'money_fund_yield_annual': 0.022,

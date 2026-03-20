@@ -2,9 +2,12 @@ name: Run Script Twice Daily
 
 on:
   schedule:
-    - cron: "0 1 * * *"
-    - cron: "30 7 * * *"
+    - cron: '0 1 * * *'
+    - cron: '30 7 * * *'
   workflow_dispatch:
+
+permissions:
+  contents: write   # ⭐关键就是这行
 
 jobs:
   run-job:
@@ -17,7 +20,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: '3.10'
 
       - name: Install deps
         run: pip install pandas numpy requests matplotlib
