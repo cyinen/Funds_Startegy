@@ -1,4 +1,4 @@
-## 红利MA120均线滚动策略-对你有帮组的话点个star吧 
+## 红利MA120均线滚动策略-对你有帮助的话点个star吧 
 
 <img width="1024" height="1935" alt="aba463217c5bdc210615f8982dfececd" src="https://github.com/user-attachments/assets/b3cc4565-963a-4859-ae35-82bf3219d44d" />
 
