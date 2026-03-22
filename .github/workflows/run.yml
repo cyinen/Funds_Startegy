@@ -2,7 +2,8 @@ name: Run Script Twice Daily
 
 on:
   schedule:
-    - cron: '*/30 * * * *'   # 每30分钟
+    - cron: '0 1 * * 1-5' # 北京时间 15:30
+    - cron: '30 7 * * 1-5'→ Runs at 07:30, Monday through Friday # 北京时间 15:30
   workflow_dispatch:
 
 permissions:
