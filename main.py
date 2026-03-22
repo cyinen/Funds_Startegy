@@ -554,7 +554,6 @@ def print_current_status(daily_status, portfolio_values, fund_data):
             print(f"   ⚠️  当前持仓 {current_holding}({FUND_POOL[current_holding]}) 偏离度 {current_dev * 100:.2f}% 已超卖出线")
             print(f"   👉 建议: 【卖出(止盈)】→ 转入货币基金")
 
-            except: pass
 
         elif buy_cands:
             best = min(buy_cands, key=lambda x: x['dev'])
