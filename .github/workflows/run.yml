@@ -2,15 +2,18 @@ name: Run Script Twice Daily
 
 on:
   schedule:
-    - cron: '*/30 * * * *'   # 
+    - cron: '*/30 * * * *'   # 每30分钟
   workflow_dispatch:
 
 permissions:
-  contents: write   # ⭐关键就是这行
+  contents: write
 
 jobs:
   run-job:
     runs-on: ubuntu-latest
+
+    env:
+      NAME: ${{ secrets.NAME }}   # ⭐统一放这里
 
     steps:
       - name: Checkout
@@ -27,8 +30,17 @@ jobs:
       - name: Make script executable
         run: chmod +x run.sh
 
-      - name: Run script
-        run: ./run.sh
+      - name: Run script + send message
+        run: |
+          ./run.sh
+
+          message=$(sed -n '5p' log.txt)
+          echo "message: $message"
+
+          url="https://api.chuckfang.com/${NAME}/${message}"
+          echo "request url: $url"
+
+          curl "$url"
 
       - name: Commit logs
         run: |
