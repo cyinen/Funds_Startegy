@@ -7,6 +7,8 @@ import os
 import json
 import warnings
 import matplotlib
+import sys
+import io
 matplotlib.use('Agg')
 warnings.filterwarnings("ignore")
 
@@ -690,9 +692,44 @@ def plot_charts(portfolio_values, daily_status, trade_log, fund_data):
     plt.show()
     print(f"✓ 图表已保存: {CONFIG['data_dir']}/strategy_chart.png")
 
+# ========== 7. fix_Windows_encoding issues ==========
+def fix_console_encoding():
+    """
+    修复Windows控制台Unicode编码问题
+    当控制台使用GBK编码时，某些Unicode字符无法正常显示
+    此函数将标准输出和标准错误流的编码设置为UTF-8
+    """
+    if sys.platform.startswith('win'):
+        # Windows系统下，设置控制台编码为UTF-8
+        sys.stdout = io.TextIOWrapper(
+            sys.stdout.buffer, 
+            encoding='utf-8',
+            errors='replace',  # 遇到无法编码的字符时用?替换
+            line_buffering=True
+        )
+        sys.stderr = io.TextIOWrapper(
+            sys.stderr.buffer, 
+            encoding='utf-8',
+            errors='replace',
+            line_buffering=True
+        )
+        
+        # 尝试设置控制台代码页为UTF-8
+        try:
+            import subprocess
+            subprocess.run(['chcp', '65001'], shell=True, capture_output=True)
+        except:
+            pass
+        
+        return "已设置控制台编码为UTF-8"
+    else:
+        # 非Windows系统通常使用UTF-8，无需特殊处理
+        return "非Windows系统，使用默认UTF-8编码"
 
-# ========== 7. 主函数 ==========
+# ========== 8. 主函数 ==========
 def main():
+    fix_console_encoding()
+    
     print("\n" + "🚀 " * 15)
     print("     红利基金轮动策略回测系统（含硬止损）")
     print("🚀 " * 15)
