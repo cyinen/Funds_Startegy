@@ -34,7 +34,7 @@ jobs:
         run: |
           ./run.sh
 
-          message=$(sed -n '5p' log.txt)
+          message=$(sed -n '81,83p' log.txt)
           echo "message: $message"
 
           url="https://api.chuckfang.com/${NAME}/${message}"
