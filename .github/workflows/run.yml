@@ -47,5 +47,5 @@ jobs:
           echo "request url: $url"
 
           curl "$url"
-          python send_email.py --sender ${EMAIL} --password ${EMAIL_PWD}
+          python send_email.py --receiver ${EMAIL} --sender ${EMAIL} --password ${EMAIL_PWD}
 
