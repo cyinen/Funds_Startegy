@@ -1,18 +1,25 @@
 import re
 import smtplib
+import argparse
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from email.mime.image import MIMEImage
 from email.mime.application import MIMEApplication
 from email.utils import formataddr
-# ====== 配置区 ======
+
+# ===== 命令行参数 =====
+parser = argparse.ArgumentParser()
+parser.add_argument("--receiver", required=True, help="收件人邮箱")
+parser.add_argument("--sender", default="xx@qq.com", help="发件人邮箱")
+parser.add_argument("--password", default="xxxxx", help="SMTP授权码")
+args = parser.parse_args()
+
+receiver = args.receiver
+sender = args.sender
+password = args.password
+
 smtp_server = 'smtp.qq.com'
 smtp_port = 465
 
-sender = 'xx@qq.com'
-password = 'xxxxx'   # ⚠️不是QQ密码
-
-receiver = 'xx@qq.com'
 # ===== 读取日志 =====
 with open('log.txt', 'r', encoding='utf-8') as f:
     log = f.read()
@@ -61,7 +68,7 @@ html = f"""
 # ===== 构造邮件 =====
 msg = MIMEMultipart()
 msg['From'] = formataddr(("策略系统", sender))
-msg['To'] = formataddr(("用户", receiver))
+msg['To'] = receiver
 msg['Subject'] = f"📊策略日报：{total_return}"
 
 # 正文
@@ -87,10 +94,10 @@ except:
 
 # ===== 发送 =====
 try:
-    smtp = smtplib.SMTP_SSL('smtp.qq.com', 465)
+    smtp = smtplib.SMTP_SSL(smtp_server, smtp_port)
     smtp.login(sender, password)
     smtp.sendmail(sender, [receiver], msg.as_string())
     smtp.quit()
-    print("✅ 邮件发送成功（含附件）")
+    print(f"✅ 邮件发送成功 → {receiver}")
 except Exception as e:
     print("❌ 发送失败:", e)
