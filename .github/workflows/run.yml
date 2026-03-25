@@ -14,6 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NAME: ${{ secrets.NAME }}   # ⭐统一放这里
+      DEVICE_KEY: ${{ secrets.DEVICE_KEY }}
+      PUSH_TITLE: "Dividend Strategy Trading Signals"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -41,10 +43,14 @@ jobs:
           # URL 编码（关键！）
           message=$(python3 -c "import urllib.parse; print(urllib.parse.quote('''$message'''))")
 
+          # for MeoW APP push message
           url="https://api.chuckfang.com/${NAME}/${message}"
           echo "request url: $url"
-
           curl "$url"
+          
+          # for IOS Bark APP push message
+          barkUrl="https://api.day.app/${DEVICE_KEY}/${PUSH_TITLE}/${message}"
+          curl "$barkUrl"
 
       - name: Commit logs
         run: |
