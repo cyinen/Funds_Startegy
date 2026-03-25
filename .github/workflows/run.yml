@@ -14,8 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NAME: ${{ secrets.NAME }}   # ⭐统一放这里
-      EMAIL: ${{secrets.EMAIL}}
-      EMAIL_PWD: ${{secrets.EMAIL_PWD}}
+      EMAIL: ${{ secrets.EMAIL }}
+      EMAIL_PWD: ${{ secrets.EMAIL_PWD }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
